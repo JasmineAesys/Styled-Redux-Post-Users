@@ -8,4 +8,8 @@ export const Card = styled.div`
   border: 1px solid black;
   width: 45%;
   align-self: center;
+  a {
+    text-decoration: none;
+    color: black;
+  }
 `;

@@ -36,9 +36,26 @@ const postsSlice = createSlice({
         postTarget && postTarget.reactions.like++;
       },
     },
+    editPostTarget: {
+      reducer(state, action) {
+        const postTarget = state.find((post) => post.id === action.payload.id);
+        postTarget.content = action.payload.content;
+        postTarget.title = action.payload.title;
+        postTarget.user = action.payload.user;
+      },
+    },
   },
 });
 
-export const { postAdd, reactionAdd } = postsSlice.actions;
+export const selectPostById = (state, id) => {
+  const found = state.posts.find((post) => post.id === id);
+  return found;
+};
+
+// export const editPostTarget = (state, action) => {
+//   console.log(action);
+// };
+
+export const { postAdd, reactionAdd, editPostTarget } = postsSlice.actions;
 export const selectAllPosts = (state) => state.posts;
 export default postsSlice.reducer;

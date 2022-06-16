@@ -9,6 +9,7 @@ import { allUsers } from "../users/usersSlice";
 import { parseISO, formatDistanceToNow } from "date-fns";
 import { AiTwotoneLike } from "react-icons/ai";
 import { reactionAdd } from "./postsSlice";
+import { Link } from "react-router-dom";
 
 function PostList() {
   const dispatch = useDispatch();
@@ -20,7 +21,9 @@ function PostList() {
     <Container>
       {orderedPosts.map((post) => (
         <Card key={post.id}>
-          <CardTitle>{post.title}</CardTitle>
+          <Link to={`/post/${post.id}`}>
+            <CardTitle>{post.title}</CardTitle>
+          </Link>
           <CardContent>{post.content}</CardContent>
           <CardAuthor>by {users[post.user] ? users[post.user].name : "Anonimous"}</CardAuthor>
           {post.date ? formatDistanceToNow(parseISO(post.date)) + " ago" : ""}
