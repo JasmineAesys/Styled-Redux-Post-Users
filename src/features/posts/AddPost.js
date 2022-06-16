@@ -25,6 +25,9 @@ function AddPost() {
           content,
           user,
           date: new Date().toISOString(),
+          reactions: {
+            like: 0,
+          },
         })
       );
       setTitle("");

@@ -6,6 +6,6 @@ export const Card = styled.div`
   margin-top: 1rem;
   padding: 3%;
   border: 1px solid black;
-  width: 70%;
+  width: 45%;
   align-self: center;
 `;
