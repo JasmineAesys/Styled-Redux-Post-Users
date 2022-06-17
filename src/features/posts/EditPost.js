@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { allUsers } from "../users/usersSlice";
-import { selectPostById } from "../posts/postsSlice";
+import { selectPostById, editPostTarget, deletePost } from "./postsSlice";
 import { Container } from "../../styled/Container";
 import { CardTitle } from "../../styled/CardTitle";
 import { Select } from "../../styled/Select";
@@ -10,7 +10,6 @@ import { Button } from "../../styled/Button";
 import { Input } from "../../styled/Input";
 import { Card } from "../../styled/Card";
 import { Link } from "react-router-dom";
-import { editPostTarget } from "./postsSlice";
 
 function EditPost() {
   const { id } = useParams();
@@ -19,12 +18,12 @@ function EditPost() {
   const post = useSelector((state) => selectPostById(state, id));
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
-  let userInit = users[post.user] ? users[post.user].name : "Anonimous";
-  const [user, setUser] = useState(userInit);
+  const [user, setUser] = useState(post.user);
   const navigate = useNavigate();
 
   const editPost = () => {
-    if (title && content && user) {
+    if (title && content) {
+      !user && setUser("Anonimous");
       dispatch(
         editPostTarget({
           id: post.id,
@@ -41,6 +40,11 @@ function EditPost() {
     navigate(`/post/${post.id}`);
   };
 
+  const deleteP = () => {
+    dispatch(deletePost(id));
+    navigate("/");
+  };
+
   return (
     <Container>
       <Card>
@@ -48,7 +52,7 @@ function EditPost() {
       </Card>
       <CardTitle style={{ borderBottom: "none" }}>Edit Post {id}</CardTitle>
       Post Author
-      <Select id="postAuthor" value={post.user} onChange={(e) => setUser(e.target.value)}>
+      <Select id="postAuthor" value={user} onChange={(e) => setUser(e.target.value)}>
         <option value=""></option>
         {users.map((user) => {
           return (
@@ -63,6 +67,9 @@ function EditPost() {
       Content
       <Input type="text" value={content} onChange={(e) => setContent(e.target.value)}></Input>
       <Button onClick={() => editPost()}>Edit Post</Button>
+      <Button bgcolor="red" color="white" onClick={() => deleteP()}>
+        Delete Post
+      </Button>
     </Container>
   );
 }

@@ -17,7 +17,8 @@ function AddPost() {
   const dispatch = useDispatch();
 
   const addPost = () => {
-    if (title && content && user) {
+    !user && setUser("Anonimous");
+    if (title && content) {
       dispatch(
         postAdd({
           id: nanoid(),

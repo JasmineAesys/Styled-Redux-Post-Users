@@ -19,7 +19,7 @@ function SinglePost() {
   const users = useSelector(allUsers);
   const post = useSelector((state) => selectPostById(state, id));
 
-  return (
+  return post ? (
     <Container>
       <Card>
         <Link to="/">Back to Home</Link>
@@ -38,6 +38,12 @@ function SinglePost() {
       </Card>
       <Card>
         <Link to={`/post/edit/${post.id}`}>Edit Post</Link>
+      </Card>
+    </Container>
+  ) : (
+    <Container>
+      <Card>
+        <Link to="/">Page not found - Back to Home</Link>
       </Card>
     </Container>
   );

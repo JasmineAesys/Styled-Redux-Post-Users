@@ -25,24 +25,25 @@ const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    postAdd: {
-      reducer(state, action) {
-        state.push(action.payload);
-      },
+    postAdd(state, action) {
+      state.push(action.payload);
     },
-    reactionAdd: {
-      reducer(state, action) {
-        const postTarget = state.find((post) => post.id === action.payload);
-        postTarget && postTarget.reactions.like++;
-      },
+
+    reactionAdd(state, action) {
+      const postTarget = state.find((post) => post.id === action.payload);
+      postTarget && postTarget.reactions.like++;
     },
-    editPostTarget: {
-      reducer(state, action) {
-        const postTarget = state.find((post) => post.id === action.payload.id);
-        postTarget.content = action.payload.content;
-        postTarget.title = action.payload.title;
-        postTarget.user = action.payload.user;
-      },
+    editPostTarget(state, action) {
+      const postTarget = state.find((post) => post.id === action.payload.id);
+      postTarget.content = action.payload.content;
+      postTarget.title = action.payload.title;
+      postTarget.user = action.payload.user;
+    },
+    deletePost(state, action) {
+      state.splice(
+        state.findIndex((post) => post.id === action.payload),
+        1
+      );
     },
   },
 });
@@ -52,10 +53,6 @@ export const selectPostById = (state, id) => {
   return found;
 };
 
-// export const editPostTarget = (state, action) => {
-//   console.log(action);
-// };
-
-export const { postAdd, reactionAdd, editPostTarget } = postsSlice.actions;
+export const { postAdd, reactionAdd, editPostTarget, deletePost } = postsSlice.actions;
 export const selectAllPosts = (state) => state.posts;
 export default postsSlice.reducer;
